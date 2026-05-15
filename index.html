@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1RY3F082QX"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-1RY3F082QX');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AKIRA&KIN — Artist</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,300;0,400;0,600;0,700;0,900;1,300;1,600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red:       #cc0000;
+    --red-deep:  #8b0000;
+    --red-bright:#e8001a;
+    --black:     #000000;
+    --near-black:#0a0a0a;
+    --charcoal:  #111111;
+    --white:     #ffffff;
+    --offwhite:  #f0ece6;
+    --gold:      #c9a034;
+    --muted:     #888;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Barlow Condensed', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* === CURSOR === */
+  #cur { position: fixed; width: 10px; height: 10px; background: var(--red-bright); border-radius: 50%; pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); }
+  #cur-r { position: fixed; width: 40px; height: 40px; border: 1.5px solid var(--red); border-radius: 50%; pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); opacity: .6; }
+
+  /* === NOISE === */
+  body::after {
+    content: '';
+    position: fixed; inset: 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 9996; opacity: .5;
+  }
+
+  /* === NAV === */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 22px 56px;
+    background: linear-gradient(to bottom, rgba(0,0,0,.92) 0%, transparent 100%);
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px; letter-spacing: .12em;
+    color: var(--white); text-decoration: none;
+  }
+  .nav-logo span { color: var(--red-bright); }
+  nav ul { display: flex; gap: 40px; list-style: none; }
+  nav ul a {
+    font-family: 'Space Mono', monospace; font-size: 9px;
+    letter-spacing: .3em; text-transform: uppercase;
+    color: var(--muted); text-decoration: none; transition: color .25s;
+  }
+  nav ul a:hover { color: var(--white); }
+
+  /* === HERO === */
+  .hero {
+    min-height: 100vh; position: relative; overflow: hidden;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 0 56px 80px;
+  }
+
+  /* ── VIDEO BACKGROUND ── */
+  .hero-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;        /* fills the frame, crops edges like background-size:cover */
+    object-position: center;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* Dark overlay so text stays readable over the video */
+  .hero-video-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background:
+      /* strong bottom-to-top gradient so hero text pops */
+      linear-gradient(to top,  rgba(0,0,0,.90) 0%,  rgba(0,0,0,.45) 40%, transparent 70%),
+      /* subtle red tint for brand colour */
+      radial-gradient(ellipse 70% 80% at 100% 30%, rgba(180,0,0,.30) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 60% at 0%   80%, rgba(80,0,0,.25)  0%, transparent 60%);
+  }
+
+  /* Thin vertical-line texture (keep on top of video) */
+  .hero-tex {
+    position: absolute; inset: 0; z-index: 2;
+    background-image: repeating-linear-gradient(90deg, rgba(255,255,255,.012) 0px, transparent 1px, transparent 60px);
+    mix-blend-mode: overlay;
+    pointer-events: none;
+  }
+
+  /* All hero content sits above the video stack */
+  .hero > *:not(.hero-video):not(.hero-video-overlay):not(.hero-tex):not(.hero-wordmark) {
+    position: relative;
+    z-index: 3;
+  }
+
+  .hero-wordmark {
+    position: absolute;
+    bottom: -20px; right: -20px;
+    z-index: 2;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(200px, 28vw, 400px);
+    line-height: 1; color: rgba(180,0,0,.07);
+    letter-spacing: -.02em;
+    pointer-events: none; user-select: none; white-space: nowrap;
+  }
+
+  .hero-eyebrow {
+    font-family: 'Space Mono', monospace; font-size: 9px;
+    letter-spacing: .45em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px;
+    opacity: 0; animation: fuUp .8s .2s ease forwards;
+  }
+
+  .hero-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(90px, 15vw, 220px);
+    line-height: .88; letter-spacing: .02em; color: var(--white);
+    opacity: 0; animation: fuUp 1s .4s ease forwards;
+    position: relative; z-index: 3;
+  }
+  .hero-name .red { color: var(--red-bright); }
+
+  .hero-tag {
+    font-size: 22px; font-style: italic; font-weight: 300;
+    letter-spacing: .1em; color: rgba(255,255,255,.5); margin-top: 12px;
+    opacity: 0; animation: fuUp .8s .7s ease forwards;
+  }
+
+  .hero-stats {
+    display: flex; gap: 48px; margin-top: 44px;
+    opacity: 0; animation: fuUp .8s .9s ease forwards;
+  }
+  .h-stat-n { font-family: 'Bebas Neue', sans-serif; font-size: 48px; color: var(--red-bright); line-height: 1; }
+  .h-stat-l { font-family: 'Space Mono', monospace; font-size: 8px; letter-spacing: .25em; text-transform: uppercase; color: var(--muted); margin-top: 4px; }
+  .h-stat-div { width: 1px; background: rgba(255,255,255,.1); align-self: stretch; }
+
+  .hero-btns {
+    display: flex; gap: 14px; margin-top: 40px;
+    opacity: 0; animation: fuUp .8s 1.1s ease forwards;
+  }
+  .btn-red {
+    padding: 13px 34px; background: var(--red-bright); color: var(--white);
+    font-family: 'Space Mono', monospace; font-size: 9px;
+    letter-spacing: .3em; text-transform: uppercase;
+    text-decoration: none; font-weight: 700; transition: all .25s; border: none; cursor: none;
+  }
+  .btn-red:hover { background: #ff0022; transform: translateY(-2px); }
+  .btn-outline {
+    padding: 13px 34px; border: 1.5px solid rgba(255,255,255,.25); color: var(--white);
+    font-family: 'Space Mono', monospace; font-size: 9px;
+    letter-spacing: .3em; text-transform: uppercase;
+    text-decoration: none; transition: all .25s; cursor: none;
+  }
+  .btn-outline:hover { border-color: var(--red); color: var(--red); }
+
+  .hero-scroll {
+    position: absolute; right: 56px; bottom: 80px; z-index: 3;
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    opacity: 0; animation: fadeIn 1s 1.4s ease forwards;
+  }
+  .scroll-line { width: 1px; height: 56px; background: linear-gradient(to bottom, transparent, var(--red)); animation: pulse 2s infinite; }
+  .scroll-txt { font-family: 'Space Mono', monospace; font-size: 7px; letter-spacing: .35em; text-transform: uppercase; color: var(--muted); writing-mode: vertical-rl; }
+
+  /* === MUTE TOGGLE === */
+  .hero-mute {
+    position: absolute; left: 56px; bottom: 80px; z-index: 3;
+    background: rgba(0,0,0,.5); border: 1.5px solid rgba(255,255,255,.2);
+    color: var(--white); font-family: 'Space Mono', monospace; font-size: 8px;
+    letter-spacing: .2em; text-transform: uppercase;
+    padding: 10px 18px; cursor: none; transition: all .25s;
+    opacity: 0; animation: fadeIn 1s 1.6s ease forwards;
+  }
+  .hero-mute:hover { border-color: var(--red-bright); background: rgba(204,0,0,.2); }
+
+  /* === SECTION BASE === */
+  section { padding: 110px 56px; }
+
+  .sec-tag {
+    font-family: 'Space Mono', monospace; font-size: 8px;
+    letter-spacing: .4em; text-transform: uppercase; color: var(--red-bright);
+    display: flex; align-items: center; gap: 14px; margin-bottom: 16px;
+  }
+  .sec-tag::before { content: ''; width: 28px; height: 1px; background: var(--red-bright); }
+  .sec-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(52px, 7vw, 96px); line-height: .95; letter-spacing: .03em; color: var(--white); }
+
+  /* === WORKS === */
+  #works { background: var(--near-black); }
+  .works-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 48px; }
+  .filter-bar { display: flex; gap: 3px; }
+  .ftab {
+    padding: 8px 22px; background: none; border: 1px solid transparent;
+    font-family: 'Space Mono', monospace; font-size: 8px;
+    letter-spacing: .2em; text-transform: uppercase; color: var(--muted); cursor: none; transition: all .25s;
+  }
+  .ftab.on, .ftab:hover { border-color: var(--red); color: var(--white); background: rgba(204,0,0,.12); }
+  .works-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; }
+  .wcard { position: relative; overflow: hidden; background: #1a0a0a; aspect-ratio: 1; cursor: none; }
+  .wcard.wide { grid-column: span 2; aspect-ratio: 2/1; }
+  .wcard-img { width: 100%; height: 100%; object-fit: cover; transition: transform .65s ease, filter .4s; filter: saturate(.75) brightness(.75); }
+  .wcard:hover .wcard-img { transform: scale(1.07); filter: saturate(.5) brightness(.5); }
+  .wcard-yt { width: 100%; height: 100%; position: absolute; inset: 0; }
+  .wcard-yt iframe { width: 100%; height: 100%; border: none; pointer-events: none; }
+  .wcard-yt-overlay { position: absolute; inset: 0; background: rgba(0,0,0,.45); display: flex; align-items: center; justify-content: center; transition: background .3s; }
+  .wcard:hover .wcard-yt-overlay { background: rgba(0,0,0,.1); }
+  .wcard-play { width: 60px; height: 60px; border-radius: 50%; background: rgba(204,0,0,.9); border: 2px solid rgba(255,255,255,.3); display: flex; align-items: center; justify-content: center; transition: all .3s; transform: scale(.8); opacity: 0; }
+  .wcard:hover .wcard-play { opacity: 1; transform: scale(1); }
+  .wcard-play svg { fill: white; margin-left: 4px; }
+  .wcard-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,.95) 0%, transparent 55%); display: flex; flex-direction: column; justify-content: flex-end; padding: 22px; opacity: 0; transition: opacity .35s; }
+  .wcard:hover .wcard-overlay { opacity: 1; }
+  .wcard-type { font-family: 'Space Mono', monospace; font-size: 7px; letter-spacing: .3em; text-transform: uppercase; color: var(--red-bright); margin-bottom: 6px; }
+  .wcard-cap { font-size: 14px; font-weight: 600; line-height: 1.3; color: var(--white); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  .wcard-meta { display: flex; gap: 16px; margin-top: 8px; }
+  .wcard-stat { font-family: 'Space Mono', monospace; font-size: 7px; color: var(--muted); }
+  .wcard-link { position: absolute; inset: 0; z-index: 10; }
+  .wcard-ph { width: 100%; height: 100%; background: linear-gradient(135deg,#1a0606,#0a0000); display: flex; align-items: center; justify-content: center; font-size: 48px; color: rgba(200,0,0,.15); }
+
+  /* === ABOUT === */
+  #about { background: var(--black); display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: center; }
+  .about-left { position: relative; }
+  .about-poster { position: relative; width: 100%; }
+  .about-poster-main { width: 100%; aspect-ratio: 1; object-fit: cover; display: block; filter: saturate(.8); }
+  .about-poster-tag { position: absolute; top: 0; left: 0; right: 0; background: var(--red-deep); padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; }
+  .apt-l { font-family: 'Space Mono', monospace; font-size: 8px; letter-spacing: .3em; text-transform: uppercase; color: rgba(255,255,255,.6); }
+  .apt-r { font-family: 'Bebas Neue', sans-serif; font-size: 22px; letter-spacing: .1em; color: var(--gold); }
+  .about-poster-badge { position: absolute; bottom: 20px; left: 20px; background: var(--red-bright); padding: 8px 18px; font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: .15em; color: white; }
+  .about-frame { position: absolute; top: -10px; left: -10px; right: 10px; bottom: 10px; border: 1.5px solid rgba(204,0,0,.3); pointer-events: none; z-index: -1; }
+  .about-right .sec-tag { margin-top: 0; }
+  .about-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(52px, 6vw, 88px); line-height: .9; letter-spacing: .03em; color: var(--white); margin-bottom: 28px; }
+  .about-title .red { color: var(--red-bright); }
+  .about-quote { font-size: 20px; font-style: italic; font-weight: 300; color: rgba(255,255,255,.55); line-height: 1.6; border-left: 3px solid var(--red-bright); padding-left: 22px; margin-bottom: 28px; }
+  .about-body { font-size: 17px; font-weight: 300; line-height: 1.85; color: rgba(255,255,255,.45); margin-bottom: 36px; }
+  .about-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { padding: 6px 18px; border: 1px solid rgba(204,0,0,.35); font-family: 'Space Mono', monospace; font-size: 8px; letter-spacing: .2em; text-transform: uppercase; color: var(--red-bright); }
+
+  /* === HYPE STRIP === */
+  .hype-strip { background: var(--red-deep); padding: 28px 56px; display: flex; justify-content: space-between; align-items: center; overflow: hidden; position: relative; }
+  .hype-strip::before { content: 'COMING SOON · COMING SOON · COMING SOON · COMING SOON'; position: absolute; top: 50%; transform: translateY(-50%); font-family: 'Bebas Neue', sans-serif; font-size: 120px; letter-spacing: .05em; color: rgba(0,0,0,.15); white-space: nowrap; pointer-events: none; }
+  .hype-l { font-family: 'Space Mono', monospace; font-size: 8px; letter-spacing: .35em; text-transform: uppercase; color: var(--gold); position: relative; }
+  .hype-c { font-family: 'Bebas Neue', sans-serif; font-size: clamp(36px, 4vw, 56px); letter-spacing: .1em; color: var(--white); position: relative; }
+  .hype-r { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: rgba(255,255,255,.5); text-align: right; position: relative; }
+
+  /* === FEATURED === */
+  #featured { background: var(--charcoal); overflow: hidden; position: relative; }
+  #featured::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 100% at 80% 50%, rgba(180,0,0,.18) 0%, transparent 65%), radial-gradient(ellipse 60% 80% at 0% 100%, rgba(100,0,0,.2) 0%, transparent 60%); }
+  .feat-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; position: relative; }
+  .np-card { background: linear-gradient(135deg, #1a0000 0%, #300000 50%, #220000 100%); border-radius: 16px; padding: 30px; position: relative; overflow: hidden; box-shadow: 0 30px 80px rgba(0,0,0,.8), 0 0 0 1px rgba(255,255,255,.06); }
+  .np-card::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 80% at 100% 0%, rgba(220,0,30,.25) 0%, transparent 60%); }
+  .np-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; position: relative; }
+  .np-star { font-size: 18px; color: rgba(255,255,255,.4); }
+  .np-label { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: .25em; text-transform: uppercase; color: rgba(255,255,255,.7); font-weight: 700; }
+  .np-dots { font-size: 20px; color: rgba(255,255,255,.4); letter-spacing: 3px; }
+  .np-cover { width: 100%; aspect-ratio: 1; border-radius: 10px; overflow: hidden; margin-bottom: 24px; position: relative; box-shadow: 0 16px 48px rgba(0,0,0,.7); background: #1a0000; }
+  .np-cover img { width: 100%; height: 100%; object-fit: cover; }
+  .np-cover-label { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(to top, rgba(0,0,0,.9) 0%, transparent 100%); padding: 20px 18px 14px; }
+  .np-cover-title { font-family: 'Bebas Neue', sans-serif; font-size: 36px; letter-spacing: .1em; color: var(--white); }
+  .np-cover-artist { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: .2em; color: var(--gold); }
+  .np-track-row { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px; }
+  .np-track-name { font-family: 'Bebas Neue', sans-serif; font-size: 34px; letter-spacing: .05em; color: var(--white); }
+  .np-heart { font-size: 22px; color: rgba(255,255,255,.35); transition: color .3s; cursor: none; }
+  .np-heart:hover { color: var(--red-bright); }
+  .np-bar-bg { width: 100%; height: 3px; background: rgba(255,255,255,.15); border-radius: 2px; position: relative; cursor: none; }
+  .np-bar-fill { height: 100%; background: linear-gradient(to right, var(--red-bright), #ff4455); border-radius: 2px; position: relative; }
+  .np-bar-fill::after { content: ''; position: absolute; right: -3px; top: -3px; width: 9px; height: 9px; border-radius: 50%; background: #ff4455; box-shadow: 0 0 8px rgba(255,68,85,.8); }
+  .np-times { display: flex; justify-content: space-between; font-family: 'Space Mono', monospace; font-size: 9px; color: rgba(255,255,255,.4); margin-top: 8px; }
+  .np-controls { display: flex; justify-content: center; align-items: center; gap: 28px; margin-top: 22px; }
+  .np-btn-sm { background: none; border: none; color: rgba(255,255,255,.5); font-size: 22px; cursor: none; transition: color .2s; }
+  .np-btn-sm:hover { color: white; }
+  .np-btn-play { width: 56px; height: 56px; border-radius: 50%; background: var(--white); border: none; display: flex; align-items: center; justify-content: center; cursor: none; transition: all .25s; box-shadow: 0 0 24px rgba(255,255,255,.2); }
+  .np-btn-play:hover { background: var(--offwhite); transform: scale(1.08); }
+  .np-btn-play svg { fill: var(--black); margin-left: 3px; }
+  .feat-text .sec-tag { margin-top: 0; }
+  .feat-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(52px, 6vw, 82px); line-height: .9; color: var(--white); margin-bottom: 8px; }
+  .feat-title .red { color: var(--red-bright); }
+  .feat-sub { font-family: 'Bebas Neue', sans-serif; font-size: 26px; letter-spacing: .08em; color: rgba(255,255,255,.3); margin-bottom: 24px; }
+  .feat-desc { font-size: 17px; font-weight: 300; line-height: 1.85; color: rgba(255,255,255,.45); margin-bottom: 28px; }
+  .feat-yt { width: 100%; aspect-ratio: 16/9; margin-bottom: 28px; position: relative; overflow: hidden; border: 1px solid rgba(204,0,0,.25); }
+  .feat-yt iframe { width: 100%; height: 100%; border: none; }
+  .stream-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .slink { display: flex; align-items: center; gap: 12px; padding: 13px 18px; border: 1px solid rgba(255,255,255,.1); text-decoration: none; color: rgba(255,255,255,.65); font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: .15em; text-transform: uppercase; transition: all .28s; }
+  .slink:hover { border-color: var(--red-bright); color: var(--white); background: rgba(204,0,0,.12); transform: translateY(-2px); }
+  .slink-icon { font-size: 18px; }
+
+  /* === CONNECT === */
+  #connect { background: var(--black); text-align: center; position: relative; overflow: hidden; }
+  .connect-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 70% 70% at 50% 100%, rgba(160,0,0,.25) 0%, transparent 60%), radial-gradient(ellipse 50% 50% at 50% 50%, rgba(80,0,0,.2) 0%, transparent 70%); }
+  .connect-wm { position: absolute; bottom: -40px; left: 50%; transform: translateX(-50%); font-family: 'Bebas Neue', sans-serif; font-size: clamp(120px, 20vw, 260px); letter-spacing: -.02em; color: rgba(180,0,0,.06); white-space: nowrap; pointer-events: none; }
+  .connect-inner { position: relative; z-index: 2; }
+  .connect-pre { font-family: 'Space Mono', monospace; font-size: 8px; letter-spacing: .45em; text-transform: uppercase; color: var(--gold); margin-bottom: 20px; }
+  .connect-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(72px, 12vw, 160px); line-height: .88; letter-spacing: .02em; color: var(--white); }
+  .connect-title .red { color: var(--red-bright); display: block; }
+  .connect-sub { font-size: 18px; font-style: italic; font-weight: 300; color: rgba(255,255,255,.35); margin: 20px auto 48px; max-width: 480px; }
+  .socials { display: flex; justify-content: center; gap: 4px; margin-bottom: 48px; }
+  .soc { padding: 13px 30px; border: 1.5px solid rgba(255,255,255,.12); font-family: 'Space Mono', monospace; font-size: 8px; letter-spacing: .3em; text-transform: uppercase; color: rgba(255,255,255,.45); text-decoration: none; transition: all .28s; }
+  .soc:hover { border-color: var(--red-bright); color: var(--white); background: rgba(204,0,0,.15); }
+  .connect-handle { font-family: 'Bebas Neue', sans-serif; font-size: 36px; letter-spacing: .12em; color: var(--red-bright); text-decoration: none; border-bottom: 2px solid rgba(204,0,0,.3); padding-bottom: 4px; transition: border-color .3s; }
+  .connect-handle:hover { border-color: var(--red-bright); }
+
+  /* === FOOTER === */
+  footer { background: #050000; padding: 32px 56px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid rgba(204,0,0,.2); }
+  .foot-logo { font-family: 'Bebas Neue', sans-serif; font-size: 26px; letter-spacing: .12em; color: var(--white); }
+  .foot-logo span { color: var(--red-bright); }
+  .foot-copy { font-family: 'Space Mono', monospace; font-size: 8px; letter-spacing: .2em; color: rgba(255,255,255,.2); }
+  .foot-tag { font-family: 'Space Mono', monospace; font-size: 8px; letter-spacing: .2em; color: rgba(204,0,0,.5); }
+
+  /* === SCROLL REVEAL === */
+  .rv  { opacity: 0; transform: translateY(44px); transition: all .95s cubic-bezier(.16,1,.3,1); }
+  .rv2 { opacity: 0; transform: translateY(44px); transition: all .95s .15s cubic-bezier(.16,1,.3,1); }
+  .rv3 { opacity: 0; transform: translateY(44px); transition: all .95s .3s  cubic-bezier(.16,1,.3,1); }
+  .rv.vis, .rv2.vis, .rv3.vis { opacity: 1; transform: translateY(0); }
+
+  /* === ANIMATIONS === */
+  @keyframes fuUp  { from { opacity:0; transform:translateY(36px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes fadeIn { from { opacity:0; } to { opacity:1; } }
+  @keyframes pulse { 0%,100% { opacity:.25; } 50% { opacity:1; } }
+
+  /* === RESPONSIVE === */
+  @media (max-width: 900px) {
+    nav { padding: 18px 24px; }
+    nav ul { display: none; }
+    .hero, section { padding-left: 24px; padding-right: 24px; }
+    #about, .feat-inner { grid-template-columns: 1fr; gap: 48px; }
+    .works-grid { grid-template-columns: repeat(2,1fr); }
+    .wcard.wide { grid-column: auto; aspect-ratio: 1; }
+    .hype-strip { flex-direction: column; gap: 12px; text-align: center; }
+    .stream-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 12px; text-align: center; }
+    .hero-stats { gap: 24px; }
+    .hero-mute { left: 24px; }
+    .hero-scroll { right: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-r"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">AKIRA<span>&</span>KIN</a>
+  <ul>
+    <li><a href="#works">Works</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#featured">Music</a></li>
+    <li><a href="#connect">Connect</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="home">
+
+  <!--
+    ╔══════════════════════════════════════════════════════════╗
+    ║  VIDEO BACKGROUND                                        ║
+    ║  • File must be committed to your GitHub repo            ║
+    ║  • Replace "videos/hero.mp4" with your actual path       ║
+    ║  • Recommended: also add a WebM version for wider        ║
+    ║    browser support (Chrome/Firefox prefer WebM)          ║
+    ╚══════════════════════════════════════════════════════════╝
+  -->
+  <video
+    class="hero-video"
+    id="heroBgVideo"
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="auto"
+    poster="images/PIC 1.png"
+  >
+    <!--
+      Put your video file(s) in a "videos/" folder at the root
+      of your GitHub Pages repo, then update the src below.
+
+      Tip: add both WebM + MP4 for broadest browser support.
+      The browser picks the first format it can play.
+    -->
+    <source src="videos/hero.mp4"  type="video/mp4">
+    <!-- <source src="videos/hero.webm" type="video/webm"> -->
+
+    <!-- Fallback: if video can't load, the poster image shows -->
+  </video>
+
+  <!-- Gradient + colour overlays on top of the video -->
+  <div class="hero-video-overlay"></div>
+  <!-- Subtle grid texture -->
+  <div class="hero-tex"></div>
+
+  <div class="hero-wordmark">AKIRA&amp;KIN</div>
+
+  <div class="hero-eyebrow">Artist &nbsp;·&nbsp; Music Creator</div>
+  <h1 class="hero-name">AKIRA<br><span class="red">&amp;KIN</span></h1>
+  <p class="hero-tag">Artistic sounds, Soulful connections</p>
+
+  <div class="hero-stats">
+    <div>
+      <div class="h-stat-n">20K</div>
+      <div class="h-stat-l">Followers</div>
+    </div>
+    <div class="h-stat-div"></div>
+    <div>
+      <div class="h-stat-n">1M+</div>
+      <div class="h-stat-l">Streams</div>
+    </div>
+    <div class="h-stat-div"></div>
+    <div>
+      <div class="h-stat-n">18</div>
+      <div class="h-stat-l">Releases</div>
+    </div>
+  </div>
+
+  <div class="hero-btns">
+    <a href="#works" class="btn-red">View Works</a>
+    <a href="https://www.youtube.com/@akiraandkin" target="_blank" class="btn-outline">YouTube Channel ↗</a>
+  </div>
+
+  <!-- Mute / Unmute button -->
+  <button class="hero-mute" id="muteBtn" onclick="toggleMute()">⏸ MUTE</button>
+
+  <div class="hero-scroll">
+    <span class="scroll-txt">Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- WORKS -->
+<section id="works">
+  <div class="works-header rv">
+    <div>
+      <div class="sec-tag">Portfolio</div>
+      <h2 class="sec-title">THE WORKS</h2>
+    </div>
+    <div class="filter-bar">
+      <button class="ftab on" onclick="doFilter('all',this)">All</button>
+      <button class="ftab" onclick="doFilter('reel',this)">Reels</button>
+      <button class="ftab" onclick="doFilter('photo',this)">Photos</button>
+      <button class="ftab" onclick="doFilter('yt',this)">YouTube</button>
+    </div>
+  </div>
+  <div class="works-grid" id="wGrid"></div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-left rv">
+    <div class="about-poster">
+      <div class="about-poster-tag">
+        <span class="apt-l">AKIRA&amp;KIN</span>
+        <span class="apt-r">#TODAYSMOOD</span>
+      </div>
+      <img class="about-poster-main" src="images/PIC 1.png" alt="AKIRA&KIN">
+      <div class="about-poster-badge">BAYASIDE</div>
+    </div>
+    <div class="about-frame"></div>
+  </div>
+  <div class="about-right rv2">
+    <div class="sec-tag">The Artist</div>
+    <h2 class="about-title">WHERE SOUND<br>MEETS <span class="red">SOUL</span></h2>
+    <blockquote class="about-quote">"The best art comes from the hardest moments."</blockquote>
+    <p class="about-body">
+      AKIRA&KIN is an independent artist fusing cultural roots with modern electronic production. From lyrical videos to high-energy reels, every release is crafted as an emotional experience — mastered for 3D Dolby, built to take you beyond sound.
+    </p>
+    <div class="about-chips">
+      <span class="chip">Music Creator</span>
+      <span class="chip">Electronic</span>
+      <span class="chip">Fusion Artist</span>
+      <span class="chip">Video Song</span>
+      <span class="chip">3D Dolby</span>
+      <span class="chip">Debut Single</span>
+    </div>
+  </div>
+</section>
+
+<!-- HYPE STRIP -->
+<div class="hype-strip">
+  <span class="hype-l">AKIRA&amp;KIN · NEW RELEASE</span>
+  <span class="hype-c">VIDEO SONG — COMING SOON</span>
+  <span class="hype-r">PREPARE TO BE AMAZED.<br>STAY TUNED.</span>
+</div>
+
+<!-- FEATURED / NOW PLAYING -->
+<section id="featured">
+  <div class="feat-inner">
+    <div class="rv">
+      <div class="np-card">
+        <div class="np-header">
+          <span class="np-star">✦</span>
+          <span class="np-label">Now Playing</span>
+          <span class="np-dots">···</span>
+        </div>
+        <div class="np-cover">
+          <img src="images/Album cover (1).png" alt="Bayaside">
+          <div class="np-cover-label">
+            <div class="np-cover-title">B A Y A S I D E</div>
+            <div class="np-cover-artist">AKIRA&amp;KIN</div>
+          </div>
+        </div>
+        <div class="np-track-row">
+          <div class="np-track-name">Bayaside</div>
+          <div class="np-heart" id="heartBtn">♡</div>
+        </div>
+        <div class="np-bar-bg">
+          <div class="np-bar-fill" id="progressBar" style="width:15%"></div>
+        </div>
+        <div class="np-times"><span id="timeNow">0:37</span><span>4:04</span></div>
+        <div class="np-controls">
+          <button class="np-btn-sm">⏮</button>
+          <button class="np-btn-play" id="playBtn">
+            <svg width="16" height="18" viewBox="0 0 16 18"><polygon points="0,0 16,9 0,18"/></svg>
+          </button>
+          <button class="np-btn-sm">⏭</button>
+        </div>
+      </div>
+    </div>
+    <div class="feat-text rv2">
+      <div class="sec-tag">Latest Release</div>
+      <h2 class="feat-title">BAYA<span class="red">SIDE</span></h2>
+      <div class="feat-sub">Debut Single · Dec 2024</div>
+      <p class="feat-desc">A fusion of contemporary beats and cultural soul. Mastered for a 3D Dolby experience — plug in your headphones and feel the music like never before.</p>
+      <div class="feat-yt">
+        <iframe src="https://www.youtube.com/embed/BJlUHnixz3g?rel=0&modestbranding=1" title="AKIRA&KIN – Bayaside" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <div class="stream-grid">
+        <a href="https://www.youtube.com/@akiraandkin" target="_blank" class="slink"><span class="slink-icon">▶</span> YouTube Channel</a>
+        <a href="https://www.instagram.com/akiraandkin" target="_blank" class="slink"><span class="slink-icon">◉</span> Instagram</a>
+        <a href="https://www.youtube.com/watch?v=BJlUHnixz3g" target="_blank" class="slink"><span class="slink-icon">◈</span> Watch Video</a>
+        <a href="https://www.instagram.com/reel/DFwrLzgT4Yq/" target="_blank" class="slink"><span class="slink-icon">♪</span> Latest Reel</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONNECT -->
+<section id="connect">
+  <div class="connect-bg"></div>
+  <div class="connect-wm">AKIRA&amp;KIN</div>
+  <div class="connect-inner">
+    <div class="connect-pre rv">Let's connect</div>
+    <h2 class="connect-title rv">FOLLOW THE<span class="red">JOURNEY</span></h2>
+    <p class="connect-sub rv2">Feel the music. Join the community of soulful listeners.</p>
+    <div class="socials rv2">
+      <a href="https://www.instagram.com/akiraandkin" target="_blank" class="soc">Instagram</a>
+      <a href="https://www.youtube.com/@akiraandkin" target="_blank" class="soc">YouTube</a>
+    </div>
+    <a href="https://www.instagram.com/akiraandkin" target="_blank" class="connect-handle rv3">@akiraandkin</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-logo">AKIRA<span>&</span>KIN</div>
+  <div class="foot-copy">© 2026 AKIRA&amp;KIN — All rights reserved</div>
+  <div class="foot-tag">#TODAYSMOOD</div>
+</footer>
+
+<script>
+// CURSOR
+const cur = document.getElementById('cur');
+const curR = document.getElementById('cur-r');
+let rx=0, ry=0, mx=0, my=0;
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cur.style.left = mx+'px'; cur.style.top = my+'px';
+});
+(function loop(){
+  rx += (mx-rx)*.1; ry += (my-ry)*.1;
+  curR.style.left=rx+'px'; curR.style.top=ry+'px';
+  requestAnimationFrame(loop);
+})();
+
+// ── VIDEO MUTE TOGGLE ──────────────────────────────────────
+const heroBgVideo = document.getElementById('heroBgVideo');
+const muteBtn     = document.getElementById('muteBtn');
+let isMuted = true; // starts muted (browser requirement for autoplay)
+
+function toggleMute() {
+  isMuted = !isMuted;
+  heroBgVideo.muted = isMuted;
+  muteBtn.textContent = isMuted ? '⏸ MUTE' : '🔊 SOUND ON';
+}
+
+// Ensure autoplay kicks off even on slow connections
+heroBgVideo.play().catch(() => {
+  // Autoplay blocked — video stays paused but poster image shows
+});
+
+// POSTS
+const posts = [
+  { type:'yt', ytId:'BJlUHnixz3g', cap:'Bayaside — Official Video', href:'https://www.youtube.com/watch?v=BJlUHnixz3g', wide:true },
+  { type:'reel', thumb:'images/1.png', cap:'Every beat has a story — New Video Song Coming Soon!', likes:32, comments:2, href:'https://www.instagram.com/reel/DFwrLzgT4Yq/' },
+  { type:'reel', thumb:'images/M.png', cap:'#Bayaside — Fusion of vibes & electronic beats like never before!', likes:28, comments:5, href:'https://www.instagram.com/reel/DFvS-owz_9Z/' },
+  { type:'photo', thumb:'images/3.png', cap:'Bayaside — Streaming on all platforms. Link in bio!', likes:19, comments:3, href:'https://www.instagram.com/p/DFuVkwws3O5/' },
+  { type:'reel', thumb:'images/4.png', cap:'Lyrical Video — Streaming now. YouTube Link in Bio.', likes:15, comments:4, href:'https://www.instagram.com/reel/DFfJAtSzi_c/' },
+  { type:'reel', thumb:'images/2.png', cap:'A love that runs, a heart that races — Bayaside.', likes:17, comments:3, href:'https://www.instagram.com/reel/DFeig3Zo4Tu/' }
+];
+
+function typeLabel(t) {
+  return t==='reel' ? '▶ REEL' : t==='photo' ? '◉ PHOTO' : '▶ YOUTUBE';
+}
+
+function buildGrid(filter) {
+  const g = document.getElementById('wGrid');
+  g.innerHTML = '';
+  const list = filter === 'all' ? posts : posts.filter(p => p.type === filter);
+  list.forEach(p => {
+    const el = document.createElement('div');
+    el.className = 'wcard' + (p.wide ? ' wide' : '');
+    if (p.type === 'yt') {
+      el.innerHTML = `
+        <div class="wcard-yt">
+          <iframe src="https://www.youtube.com/embed/${p.ytId}?rel=0&modestbranding=1" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="wcard-yt-overlay">
+          <div class="wcard-play"><svg width="16" height="18" viewBox="0 0 16 18"><polygon points="0,0 16,9 0,18"/></svg></div>
+        </div>
+        <div class="wcard-overlay">
+          <div class="wcard-type">${typeLabel(p.type)}</div>
+          <div class="wcard-cap">${p.cap}</div>
+        </div>
+        <a href="${p.href}" target="_blank" class="wcard-link"></a>`;
+    } else {
+      el.innerHTML = `
+        ${p.thumb ? `<img class="wcard-img" src="${p.thumb}" alt="" loading="lazy" onerror="this.style.display='none';">` : `<div class="wcard-ph">♪</div>`}
+        <div class="wcard-overlay">
+          <div class="wcard-type">${typeLabel(p.type)}</div>
+          <div class="wcard-cap">${p.cap}</div>
+          <div class="wcard-meta">
+            <span class="wcard-stat">♥ ${p.likes}</span>
+            ${p.comments!=null ? `<span class="wcard-stat">◎ ${p.comments}</span>` : ''}
+          </div>
+        </div>
+        ${p.type==='reel'?`<div class="wcard-play"><svg width="14" height="16" viewBox="0 0 14 16"><polygon points="0,0 14,8 0,16"/></svg></div>`:''}
+        <a href="${p.href}" target="_blank" class="wcard-link"></a>`;
+    }
+    g.appendChild(el);
+  });
+}
+
+function doFilter(f, btn) {
+  document.querySelectorAll('.ftab').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  buildGrid(f);
+}
+buildGrid('all');
+
+// NOW PLAYING PLAYER
+let playing=false, nowSec=37, totalSec=244, timer;
+const bar=document.getElementById('progressBar');
+const tn=document.getElementById('timeNow');
+const pb=document.getElementById('playBtn');
+const PLAY_SVG=`<svg width="16" height="18" viewBox="0 0 16 18"><polygon points="0,0 16,9 0,18"/></svg>`;
+const PAUSE_SVG=`<svg width="14" height="18" viewBox="0 0 14 18"><rect x="0" y="0" width="5" height="18" fill="black"/><rect x="9" y="0" width="5" height="18" fill="black"/></svg>`;
+function fmt(s){return Math.floor(s/60)+':'+(s%60<10?'0':'')+(s%60);}
+function updateBar(){bar.style.width=(nowSec/totalSec*100)+'%'; tn.textContent=fmt(nowSec);}
+pb.addEventListener('click',()=>{
+  playing=!playing;
+  pb.innerHTML = playing ? PAUSE_SVG : PLAY_SVG;
+  if(playing){
+    timer=setInterval(()=>{
+      if(nowSec<totalSec){nowSec++;updateBar();}
+      else{clearInterval(timer);playing=false;pb.innerHTML=PLAY_SVG;}
+    },1000);
+  } else { clearInterval(timer); }
+});
+const hb=document.getElementById('heartBtn');
+hb.addEventListener('click',()=>{ const liked=hb.textContent==='♥'; hb.textContent=liked?'♡':'♥'; hb.style.color=liked?'':'var(--red-bright)'; });
+
+// SCROLL REVEAL
+const ro = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('vis'); ro.unobserve(e.target); }});
+},{ threshold:0.08, rootMargin:'0px 0px -48px 0px' });
+document.querySelectorAll('.rv,.rv2,.rv3').forEach(el=>ro.observe(el));
+</script>
+</body>
+</html>
